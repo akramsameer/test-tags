@@ -13,7 +13,7 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["VERSION.txt", "CHANGELOG.md"],
+        "assets": ["VERSION", "CHANGELOG.md"],
         "message": "chore(release): ${nextRelease.version} [skip ci]"
       }
     ]
