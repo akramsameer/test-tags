@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/akramsameer/test-tags/compare/v1.0.2...v1.0.3) (2025-07-20)
+
+
+### Bug Fixes
+
+* remove placeholder text from box_strategy.py ([99155ff](https://github.com/akramsameer/test-tags/commit/99155ff305b7aa27985ed30096495d2c025d569b))
+
 ## [1.0.2](https://github.com/akramsameer/test-tags/compare/v1.0.1...v1.0.2) (2025-07-20)
 
 
