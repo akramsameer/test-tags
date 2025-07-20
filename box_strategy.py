@@ -4,7 +4,6 @@ Box Scanner Strategy
 Strategy for scanning files from Box.
 """
 
-blabla = 1
 import json
 import time
 import traceback
