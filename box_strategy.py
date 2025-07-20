@@ -4,6 +4,7 @@ Box Scanner Strategy
 Strategy for scanning files from Box.
 """
 
+blabla = 1
 import json
 import time
 import traceback
@@ -46,7 +47,9 @@ class BoxStrategy(BaseScannerStrategy):
         self.last_scan_batch_at = None
         self.folder_paths = {}  # Cache for folder paths
 
-    def scan(self, data_source: Dict[str, Any], scan_order: ScanOrderDict) -> ScanResult:
+    def scan(
+        self, data_source: Dict[str, Any], scan_order: ScanOrderDict
+    ) -> ScanResult:
         """
         Scan the Box data source and retrieve file metadata.
 
@@ -80,23 +83,31 @@ class BoxStrategy(BaseScannerStrategy):
             # Authenticate with Box
             auth_result = self._authenticate(data_source)
             if not auth_result:
-                return self.create_error_result("Failed to authenticate with Box", self.scan_started_at)
+                return self.create_error_result(
+                    "Failed to authenticate with Box", self.scan_started_at
+                )
 
             self.box_client = auth_result["service"]
             updated_credentials = auth_result["updated_credentials"]
 
             if not self.box_client:
-                return self.create_error_result("Failed to initialize Box client", self.scan_started_at)
+                return self.create_error_result(
+                    "Failed to initialize Box client", self.scan_started_at
+                )
 
             # Get scan cursor from scan order metadata
             cursor_data = scan_order.get("scan_metadata", {}).get("cursor", {})
 
             if cursor_data:
                 self._restore_scan_state(cursor_data)
-                logger.info(f"📋 Resuming scan from cursor: processing folder {self.current_offset}")
+                logger.info(
+                    f"📋 Resuming scan from cursor: processing folder {self.current_offset}"
+                )
             else:
                 self._initialize_scan_state(data_source)
-                logger.info(f"📋 Starting new scan for root folder: {self.current_offset}")
+                logger.info(
+                    f"📋 Starting new scan for root folder: {self.current_offset}"
+                )
 
             # Choose scan method based on scan type
             if scan_order.get("scan_type") == "incremental":
@@ -171,7 +182,9 @@ class BoxStrategy(BaseScannerStrategy):
         Returns:
             Tuple of (files list, has_more flag)
         """
-        logger.info(f"Scanning Box folder: {folder_id}, offset: {offset}, max_files: {max_files}")
+        logger.info(
+            f"Scanning Box folder: {folder_id}, offset: {offset}, max_files: {max_files}"
+        )
         logger.info(f"Modified since: {modified_since}")
 
         file_metadata_list = []
@@ -195,7 +208,9 @@ class BoxStrategy(BaseScannerStrategy):
 
             # Execute a single request directly without letting the SDK auto-iterate
             response = self._execute_with_retry(
-                lambda: self.box_client.make_request("GET", self.box_client.get_url("search"), params=search_params)
+                lambda: self.box_client.make_request(
+                    "GET", self.box_client.get_url("search"), params=search_params
+                )
             )
 
             self.api_calls_count += 1
@@ -211,8 +226,12 @@ class BoxStrategy(BaseScannerStrategy):
             items = response_json.get("entries", [])
             total_count = response_json.get("total_count", len(items))
 
-            logger.info(f"Total count of modified/created files in folder {folder_id} and its subfolders: {total_count}")
-            logger.info(f"Search results - Total Count: {total_count}, Items returned: {len(items)}")
+            logger.info(
+                f"Total count of modified/created files in folder {folder_id} and its subfolders: {total_count}"
+            )
+            logger.info(
+                f"Search results - Total Count: {total_count}, Items returned: {len(items)}"
+            )
 
             # Process files
             files_count = 0
@@ -224,7 +243,9 @@ class BoxStrategy(BaseScannerStrategy):
 
                 try:
                     # Extract folder path from path_collection
-                    folder_path = self._build_folder_path(item.get("path_collection", {}))
+                    folder_path = self._build_folder_path(
+                        item.get("path_collection", {})
+                    )
 
                     # Create file metadata with safe gets on all fields
                     file_metadata = FileMetadata(
@@ -235,7 +256,11 @@ class BoxStrategy(BaseScannerStrategy):
                         created_time=item.get("created_at"),
                         size=item.get("size", 0),
                         mime_type=self._get_mime_type_from_name(item.get("name", "")),
-                        web_view_link=item.get("shared_link", {}).get("url", "") if item.get("shared_link") else "",
+                        web_view_link=(
+                            item.get("shared_link", {}).get("url", "")
+                            if item.get("shared_link")
+                            else ""
+                        ),
                         parent_folder_id=item.get("parent", {}).get("id", folder_id),
                         folder_path=folder_path,
                     )
@@ -251,7 +276,9 @@ class BoxStrategy(BaseScannerStrategy):
             has_more = offset + len(file_metadata_list) < total_count
 
             # Log results
-            logger.info(f"Found {len(file_metadata_list)} modified/created files in folder {folder_id} and its subfolders")
+            logger.info(
+                f"Found {len(file_metadata_list)} modified/created files in folder {folder_id} and its subfolders"
+            )
 
             if has_more:
                 logger.info("More results available")
@@ -265,7 +292,9 @@ class BoxStrategy(BaseScannerStrategy):
             self._api_error_occurred = True
             raise e
 
-    def _scan_folder(self, folder_id: str, offset: int = 0, max_files: int = 100) -> Tuple[List[FileMetadata], bool]:
+    def _scan_folder(
+        self, folder_id: str, offset: int = 0, max_files: int = 100
+    ) -> Tuple[List[FileMetadata], bool]:
         """
         Scan a Box folder for files, including all files in subfolders.
         Uses Box's search API to get all files in the folder and its subfolders.
@@ -278,7 +307,9 @@ class BoxStrategy(BaseScannerStrategy):
         Returns:
             Tuple of (files list, has_more flag)
         """
-        logger.info(f"Scanning Box folder: {folder_id}, offset: {offset}, max_files: {max_files}")
+        logger.info(
+            f"Scanning Box folder: {folder_id}, offset: {offset}, max_files: {max_files}"
+        )
 
         file_metadata_list = []
         has_more = False
@@ -301,7 +332,9 @@ class BoxStrategy(BaseScannerStrategy):
 
             # Get files using search API - only make one API call per batch
             response = self._execute_with_retry(
-                lambda: self.box_client.make_request("GET", self.box_client.get_url("search"), params=search_params)
+                lambda: self.box_client.make_request(
+                    "GET", self.box_client.get_url("search"), params=search_params
+                )
             )
 
             self.api_calls_count += 1
@@ -328,7 +361,9 @@ class BoxStrategy(BaseScannerStrategy):
 
                 try:
                     # Extract folder path from path_collection
-                    folder_path = self._build_folder_path(item.get("path_collection", {}))
+                    folder_path = self._build_folder_path(
+                        item.get("path_collection", {})
+                    )
 
                     # Create file metadata
                     file_metadata = FileMetadata(
@@ -339,7 +374,11 @@ class BoxStrategy(BaseScannerStrategy):
                         created_time=item.get("created_at"),
                         size=item.get("size", 0),
                         mime_type=self._get_mime_type_from_name(item.get("name")),
-                        web_view_link=item.get("shared_link", {}).get("url", "") if item.get("shared_link") else "",
+                        web_view_link=(
+                            item.get("shared_link", {}).get("url", "")
+                            if item.get("shared_link")
+                            else ""
+                        ),
                         parent_folder_id=item.get("parent", {}).get("id", folder_id),
                         folder_path=folder_path,
                     )
@@ -349,14 +388,18 @@ class BoxStrategy(BaseScannerStrategy):
                 except Exception as e:
                     logger.error(f"Error processing file {item.get('id')}: {str(e)}")
 
-            logger.info(f"------Total count of files in folder {folder_id} and its sub-folders ------: {total_count}")
+            logger.info(
+                f"------Total count of files in folder {folder_id} and its sub-folders ------: {total_count}"
+            )
 
             # Check if there are more results
             if not has_more and offset + len(items) < total_count:
                 has_more = True
 
             # Log results
-            logger.info(f"Found {len(file_metadata_list)} files in folder {folder_id} and its subfolders")
+            logger.info(
+                f"Found {len(file_metadata_list)} files in folder {folder_id} and its subfolders"
+            )
             if has_more:
                 logger.info("More results available")
 
@@ -370,7 +413,9 @@ class BoxStrategy(BaseScannerStrategy):
             self.api_errors_count += 1
             raise e
 
-    def _incremental_scan(self, data_source: Dict[str, Any], scan_order: ScanOrderDict) -> ScanResult:
+    def _incremental_scan(
+        self, data_source: Dict[str, Any], scan_order: ScanOrderDict
+    ) -> ScanResult:
         """
         Perform an incremental scan of Box.
         Gets all files modified or created since the scanned_from timestamp.
@@ -406,10 +451,14 @@ class BoxStrategy(BaseScannerStrategy):
         scan_from = scan_order.get("scanned_from")
 
         if not scan_from:
-            scan_from = ScanOrderAdapter.get_last_completed_scan_timestamp(data_source.get("id"))
+            scan_from = ScanOrderAdapter.get_last_completed_scan_timestamp(
+                data_source.get("id")
+            )
             if not scan_from:
                 scan_from = "1970-01-01T00:00:00Z"
-                logger.warning("⚠️ No reference timestamp specified for incremental scan, using default timestamp")
+                logger.warning(
+                    "⚠️ No reference timestamp specified for incremental scan, using default timestamp"
+                )
 
         logger.info(f"🔄 Getting files modified since: {scan_from}")
         all_files = []
@@ -478,7 +527,9 @@ class BoxStrategy(BaseScannerStrategy):
                 self._save_scan_state(scan_order)
             return self.create_error_result(error_msg, self.scan_started_at)
 
-    def _full_scan(self, data_source: Dict[str, Any], scan_order: ScanOrderDict) -> ScanResult:
+    def _full_scan(
+        self, data_source: Dict[str, Any], scan_order: ScanOrderDict
+    ) -> ScanResult:
         """
         Perform a full scan of Box.
         Gets all files in the specified folder and its subfolders.
@@ -701,7 +752,9 @@ class BoxStrategy(BaseScannerStrategy):
         root_folder_id = metadata.get("folder_id")
 
         if not root_folder_id:
-            logger.warning("⚠️ No folder ID specified in data source metadata, scanning root folder")
+            logger.warning(
+                "⚠️ No folder ID specified in data source metadata, scanning root folder"
+            )
             root_folder_id = "0"  # Box uses "0" as the root folder ID
 
         # Initialize the scanner state
@@ -732,7 +785,9 @@ class BoxStrategy(BaseScannerStrategy):
                 if retry > 0:
                     # Exponential backoff for retries
                     delay = self.RETRY_DELAY * (2 ** (retry - 1))
-                    logger.warning(f"Retrying API request (attempt {retry}/{self.MAX_RETRIES}) after {delay}s delay")
+                    logger.warning(
+                        f"Retrying API request (attempt {retry}/{self.MAX_RETRIES}) after {delay}s delay"
+                    )
                     time.sleep(delay)
 
                 # Execute the API request
@@ -744,10 +799,14 @@ class BoxStrategy(BaseScannerStrategy):
                 # Handle rate limiting (429) or server errors (5xx)
                 if status_code == 429 or 500 <= status_code < 600:
                     if retry == self.MAX_RETRIES:
-                        logger.error(f"API request failed after {self.MAX_RETRIES} retries: {str(e)}")
+                        logger.error(
+                            f"API request failed after {self.MAX_RETRIES} retries: {str(e)}"
+                        )
                         raise e
                     else:
-                        logger.warning(f"API request hit rate limit or server error (status: {status_code}), will retry")
+                        logger.warning(
+                            f"API request hit rate limit or server error (status: {status_code}), will retry"
+                        )
                         continue
                 elif status_code == 404:
                     # Handle not found errors
@@ -759,7 +818,9 @@ class BoxStrategy(BaseScannerStrategy):
                     raise e
                 else:
                     # Handle other HTTP errors
-                    logger.error(f"API request failed with status {status_code}: {str(e)}")
+                    logger.error(
+                        f"API request failed with status {status_code}: {str(e)}"
+                    )
                     raise e
             except BoxException as e:
                 # Handle other Box errors
