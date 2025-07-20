@@ -1,3 +1,11 @@
+## [1.0.4](https://github.com/akramsameer/test-tags/compare/v1.0.3...v1.0.4) (2025-07-20)
+
+
+### Bug Fixes
+
+* **release:** update release configuration to use VERSION file and add VERSION 1.0.1 [skip ci] ([e43f05a](https://github.com/akramsameer/test-tags/commit/e43f05a8d5b579f39ee9bdc98f50dc27d165cecf))
+* remove unnecessary placeholder from box_strategy.py ([9664113](https://github.com/akramsameer/test-tags/commit/9664113d5a959891980239d5f9cfd70eeceaf158))
+
 ## [1.0.3](https://github.com/akramsameer/test-tags/compare/v1.0.2...v1.0.3) (2025-07-20)
 
 
