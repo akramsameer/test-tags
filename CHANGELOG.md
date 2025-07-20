@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/akramsameer/test-tags/compare/v1.0.0...v1.0.1) (2025-07-20)
+
+
+### Bug Fixes
+
+* remove unused variable from box_strategy.py ([01b2a16](https://github.com/akramsameer/test-tags/commit/01b2a1633bbf8bd492ddfc35adae169d6dafe8b9))
+
 # 1.0.0 (2025-07-20)
 
 
