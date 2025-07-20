@@ -9,7 +9,6 @@ import time
 import traceback
 from typing import Any, Dict, List, Tuple
 
-xxxxxxxxxxxxxxx
 from boxsdk.exception import BoxAPIException, BoxException
 from loguru import logger
 
