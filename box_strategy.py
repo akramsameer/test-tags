@@ -10,7 +10,6 @@ import traceback
 from typing import Any, Dict, List, Tuple
 
 from boxsdk.exception import BoxAPIException, BoxException
-from loguru import logger
 
 from jobs.reader.adapters import FileMetadata
 from jobs.reader.adapters.scan_order_adapter import ScanOrderAdapter, ScanOrderDict
