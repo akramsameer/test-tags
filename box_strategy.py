@@ -24,10 +24,9 @@ class BoxStrategy(BaseScannerStrategy):
 
     # Constants for configuration
     MAX_PAGE_SIZE = 100  # Max items per API request
-    MAX_BATCH_SIZE = 100  # Max files to process in one job run
+    MAX_BATCH_SIZE = 300  # Max files to process in one job run
     RATE_LIMIT_DELAY = 0.5  # Seconds to delay between API calls
     MAX_RETRIES = 3
-    RETRY_DELAY = 2  # Base delay for retries in seconds
 
     def __init__(self):
         """Initialize the Box scanner strategy."""
