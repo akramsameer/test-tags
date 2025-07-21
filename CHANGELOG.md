@@ -1,3 +1,10 @@
+## [1.3.8](https://github.com/akramsameer/test-tags/compare/v1.3.7...v1.3.8) (2025-07-21)
+
+
+### Bug Fixes
+
+* **release:** update repository URL and modify release message format ([72efe69](https://github.com/akramsameer/test-tags/commit/72efe69d08735f5432b054080e7756493e37fbcb))
+
 ## [1.3.7](https://github.com/akramsameer/test-tags/compare/v1.3.6...v1.3.7) (2025-07-21)
 
 
