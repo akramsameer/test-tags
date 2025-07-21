@@ -1,0 +1,56 @@
+name: Linter
+on: [push]
+jobs:
+  Black:
+    if: "!contains(github.event.head_commit.message, '[bot]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pipx install pipenv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pipenv"
+      - run: pipenv install --dev --deploy
+      - run: pipenv run black --check server
+  flake8:
+    if: "!contains(github.event.head_commit.message, '[bot]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pipx install pipenv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pipenv"
+      - run: pipenv install --dev --deploy
+      - run: pipenv run flake8 server
+  Lint_Web:
+    if: "!contains(github.event.head_commit.message, '[bot]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: 📦 Install root dependencies
+        env:
+          NPM_CONFIG_PRODUCTION: false
+        working-directory: ./
+        run: |
+          npm install
+      - name: 📦 Install client dependencies
+        env:
+          NPM_CONFIG_PRODUCTION: false
+        working-directory: ./client
+        run: |
+          npm install
+      - name: 🆎 TypeCheck
+        working-directory: ./client
+        run: npm run tslint
+      - name: 🚧 ESLint
+        working-directory: ./client
+        run: npm run eslint
+      - name: 🎨 Prettier
+        working-directory: ./client
+        run: npm run format:check
