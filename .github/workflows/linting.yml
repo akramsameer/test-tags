@@ -3,8 +3,8 @@ on: [push]
 jobs:
   Black:
     if: |
-      !startsWith(github.event.head_commit.message, 'feat') &&
-      !startsWith(github.event.head_commit.message, 'fix') &&
+      !contains(github.event.head_commit.message, 'feat') &&
+      !contains(github.event.head_commit.message, 'fix') &&
       !contains(github.event.head_commit.message, 'BREAKING CHANGE')
     runs-on: ubuntu-latest
     steps:
