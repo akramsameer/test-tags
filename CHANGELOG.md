@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/akramsameer/test-tags/compare/v1.2.1...v1.3.0) (2025-07-21)
+
+
+### Features
+
+* make the bot smarter ([e72028b](https://github.com/akramsameer/test-tags/commit/e72028b967d3f9f82d8eeb9cd941a0a7d107c90a))
+
 ## [1.2.1](https://github.com/akramsameer/test-tags/compare/v1.2.0...v1.2.1) (2025-07-21)
 
 
