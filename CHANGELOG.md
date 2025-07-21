@@ -1,3 +1,10 @@
+## [1.3.9](https://github.com/akramsameer/test-tags/compare/v1.3.8...v1.3.9) (2025-07-21)
+
+
+### Bug Fixes
+
+* **linting:** update workflow trigger to run on push to master branch ([7cb995d](https://github.com/akramsameer/test-tags/commit/7cb995dbd0b17a8ebbce0617ee14cc5186b77f68))
+
 ## [1.3.8](https://github.com/akramsameer/test-tags/compare/v1.3.7...v1.3.8) (2025-07-21)
 
 
