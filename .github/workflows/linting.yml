@@ -1,11 +1,27 @@
 name: Linter
 on: [push]
+
 jobs:
+  check-message:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.check.outputs.skip }}
+    steps:
+      - name: Check commit message
+        id: check
+        run: |
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          echo "Commit message: $COMMIT_MSG"
+
+          if [[ "$COMMIT_MSG" == feat* || "$COMMIT_MSG" == fix* || "$COMMIT_MSG" == *"BREAKING CHANGE"* ]]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
   Black:
-    if: |
-      !contains(github.event.head_commit.message, 'feat') &&
-      !contains(github.event.head_commit.message, 'fix') &&
-      !contains(github.event.head_commit.message, 'BREAKING CHANGE')
+    needs: check-message
+    if: needs.check-message.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,11 +32,10 @@ jobs:
           cache: "pipenv"
       - run: pipenv install --dev --deploy
       - run: pipenv run black --check server
+
   flake8:
-    if: |
-      !startsWith(github.event.head_commit.message, 'feat') &&
-      !startsWith(github.event.head_commit.message, 'fix') &&
-      !contains(github.event.head_commit.message, 'BREAKING CHANGE')
+    needs: check-message
+    if: needs.check-message.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,35 +46,23 @@ jobs:
           cache: "pipenv"
       - run: pipenv install --dev --deploy
       - run: pipenv run flake8 server
+
   Lint_Web:
-    if: |
-      !startsWith(github.event.head_commit.message, 'feat') &&
-      !startsWith(github.event.head_commit.message, 'fix') &&
-      !contains(github.event.head_commit.message, 'BREAKING CHANGE')
+    needs: check-message
+    if: needs.check-message.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: 📦 Install root dependencies
-        env:
-          NPM_CONFIG_PRODUCTION: false
+      - run: npm install
         working-directory: ./
-        run: |
-          npm install
-      - name: 📦 Install client dependencies
-        env:
-          NPM_CONFIG_PRODUCTION: false
+      - run: npm install
         working-directory: ./client
-        run: |
-          npm install
-      - name: 🆎 TypeCheck
+      - run: npm run tslint
         working-directory: ./client
-        run: npm run tslint
-      - name: 🚧 ESLint
+      - run: npm run eslint
         working-directory: ./client
-        run: npm run eslint
-      - name: 🎨 Prettier
+      - run: npm run format:check
         working-directory: ./client
-        run: npm run format:check
