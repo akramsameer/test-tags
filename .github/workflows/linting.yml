@@ -1,9 +1,8 @@
 name: Linter
 on:
-  workflow_run:
-    workflows: ["Release"]
-    types:
-      - completed
+  push:
+    branches:
+      - master
 
 jobs:
   check-message:
