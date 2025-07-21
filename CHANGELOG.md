@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/akramsameer/test-tags/compare/v1.3.4...v1.3.5) (2025-07-21)
+
+
+### Bug Fixes
+
+* update release workflow permissions for GitHub Actions ([e252306](https://github.com/akramsameer/test-tags/commit/e2523062c3351c6ef33573ed68a2a13e31f4a5f2))
+
 ## [1.3.4](https://github.com/akramsameer/test-tags/compare/v1.3.3...v1.3.4) (2025-07-21)
 
 
