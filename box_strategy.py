@@ -11,9 +11,7 @@ from typing import Any, Dict, List, Tuple
 
 from boxsdk.exception import BoxAPIException, BoxException
 
-from jobs.reader.adapters import FileMetadata
-from jobs.reader.adapters.scan_order_adapter import ScanOrderAdapter, ScanOrderDict
-from jobs.reader.scanners.auth_strategies.box_auth import BoxAuthFactory
+
 from jobs.reader.scanners.types import ScanResult
 from jobs.reader.services.credential_service import CredentialService
 from jobs.reader.utils.format_to_rfc3339 import format_to_rfc3339_box
