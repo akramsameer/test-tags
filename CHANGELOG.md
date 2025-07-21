@@ -1,3 +1,11 @@
+## [1.3.7](https://github.com/akramsameer/test-tags/compare/v1.3.6...v1.3.7) (2025-07-21)
+
+
+### Bug Fixes
+
+* (release): update release message to include [skip ci] ([35fb562](https://github.com/akramsameer/test-tags/commit/35fb562c24ff8cded7f6a420c957fe9a9981f27b))
+* remove MAX_BATCH_SIZE constant from BoxStrategy class ([9842d4a](https://github.com/akramsameer/test-tags/commit/9842d4aa69dae762057b40f43e01f9b46b395eb6))
+
 ## [1.3.6](https://github.com/akramsameer/test-tags/compare/v1.3.5...v1.3.6) (2025-07-21)
 
 
