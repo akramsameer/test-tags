@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/akramsameer/test-tags/compare/v1.0.5...v1.1.0) (2025-07-21)
+
+
+### Features
+
+* clean up imports in box_strategy.py ([16a8118](https://github.com/akramsameer/test-tags/commit/16a8118c1e973cda94909997dbd97c220320a54e))
+
 ## [1.0.5](https://github.com/akramsameer/test-tags/compare/v1.0.4...v1.0.5) (2025-07-21)
 
 
