@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/akramsameer/test-tags/compare/v1.2.0...v1.2.1) (2025-07-21)
+
+
+### Bug Fixes
+
+* update MAX_BATCH_SIZE in box_strategy.py to improve performance ([07f9f06](https://github.com/akramsameer/test-tags/commit/07f9f06acfb677b41a23cf290cc7b61f0c33369d))
+
 # [1.2.0](https://github.com/akramsameer/test-tags/compare/v1.1.0...v1.2.0) (2025-07-21)
 
 
