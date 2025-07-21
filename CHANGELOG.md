@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/akramsameer/test-tags/compare/v1.3.3...v1.3.4) (2025-07-21)
+
+
+### Bug Fixes
+
+* configure Git for release bot before running Semantic Release ([70eac63](https://github.com/akramsameer/test-tags/commit/70eac63908dbf2b916902307e13aa67c7c837b3b))
+
 ## [1.3.3](https://github.com/akramsameer/test-tags/compare/v1.3.2...v1.3.3) (2025-07-21)
 
 
