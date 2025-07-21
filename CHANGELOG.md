@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/akramsameer/test-tags/compare/v1.0.4...v1.0.5) (2025-07-21)
+
+
+### Bug Fixes
+
+* remove unused import from box_strategy.py ([f50ce8e](https://github.com/akramsameer/test-tags/commit/f50ce8ed7c5b3cde9f480140c4e193e3d3e840f8))
+
 ## [1.0.4](https://github.com/akramsameer/test-tags/compare/v1.0.3...v1.0.4) (2025-07-20)
 
 
