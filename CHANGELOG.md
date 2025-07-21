@@ -1,3 +1,10 @@
+## [1.3.6](https://github.com/akramsameer/test-tags/compare/v1.3.5...v1.3.6) (2025-07-21)
+
+
+### Bug Fixes
+
+* update linting workflow to trigger on completion of the Release workflow ([de15cc9](https://github.com/akramsameer/test-tags/commit/de15cc91b04adaeab3e2a5be8cc0075b9ec1813e))
+
 ## [1.3.5](https://github.com/akramsameer/test-tags/compare/v1.3.4...v1.3.5) (2025-07-21)
 
 
