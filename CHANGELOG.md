@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/akramsameer/test-tags/compare/v1.3.0...v1.3.1) (2025-07-21)
+
+
+### Bug Fixes
+
+* remove MAX_PAGE_SIZE constant from box_strategy.py ([7856998](https://github.com/akramsameer/test-tags/commit/7856998c141ff840358438d698d1b5ec161ecb6d))
+
 # [1.3.0](https://github.com/akramsameer/test-tags/compare/v1.2.1...v1.3.0) (2025-07-21)
 
 
