@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/akramsameer/test-tags/compare/v1.3.1...v1.3.2) (2025-07-21)
+
+
+### Bug Fixes
+
+* enhance linting workflow with commit message check to skip linting for specific types of commits ([2cc9a18](https://github.com/akramsameer/test-tags/commit/2cc9a189c7e562e052c7b74d2bb4fb47f76bcc4f))
+
 ## [1.3.1](https://github.com/akramsameer/test-tags/compare/v1.3.0...v1.3.1) (2025-07-21)
 
 
