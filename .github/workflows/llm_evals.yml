@@ -1,0 +1,102 @@
+name: LLM Evals
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  evals:
+    if: "!contains(github.event.head_commit.message, '[bot]')"
+    runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: experio_test_db
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: pipx install pipenv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pipenv'
+      - run: pipenv install --dev --deploy
+      - name: 'Create env file'
+        run: |
+          touch .env
+          cat .env.example > .env
+         cat .env
+      - run: mkdir -p client/dist/static
+      - run: pipenv run python server/manage.py collectstatic
+      - name: Run Graph Evals
+        run: |
+          set +e
+          pipenv run pytest --run-ai-evals server -k test_graph  > graph_evals.txt
+          cat graph_evals.txt
+          failures=$(cat graph_evals.txt | tail -n 1 | tr "," "\n" | grep "failed" | tr -dc "[0-9]")
+          failures=${failures:=0}
+          successes=$(cat graph_evals.txt | tail -n 1 | tr "," "\n" | grep "passed" | tr -dc "[0-9]")
+          successes=${successes:=0}
+          total=$(($successes + $failures))
+          echo "graph_successes=$successes" >> $GITHUB_ENV
+          echo "graph_failures=$failures" >> $GITHUB_ENV
+          echo "graph_total=$total" >> $GITHUB_ENV
+          percentage=0
+          percentage=$(($successes * 100 / $total))
+          echo "graph_percentage=$percentage" >> $GITHUB_ENV
+          error_report=$(cat graph_evals.txt | grep "AssertionError:" | cut -d ":" -f2-)
+          {
+            echo 'graph_error_report<<EOF'
+            echo $error_report
+            echo EOF
+          } >> "$GITHUB_ENV"
+          exit 0
+      - name: Run LLM evals
+        run: |
+          set +e
+          pipenv run pytest --run-ai-evals server -k test_llm_simple > llm_evals.txt
+          cat llm_evals.txt
+          failures=$(cat llm_evals.txt | tail -n 1 | tr "," "\n" | grep "failed" | tr -dc "[0-9]")
+          failures=${failures:=0}
+          successes=$(cat llm_evals.txt | tail -n 1 | tr "," "\n" | grep "passed" | tr -dc "[0-9]")
+          successes=${successes:=0}
+          total=$(($successes + $failures))
+          echo "llm_successes=$successes" >> $GITHUB_ENV
+          echo "llm_failures=$failures" >> $GITHUB_ENV
+          echo "llm_total=$total" >> $GITHUB_ENV
+          percentage=0
+          percentage=$(($successes * 100 / $total))
+          echo "llm_percentage=$percentage" >> $GITHUB_ENV
+          error_report=$(cat llm_evals.txt | grep "AssertionError:" | cut -d ":" -f2-)
+          {
+            echo 'llm_error_report<<EOF'
+            echo $error_report
+            echo EOF
+          } >> "$GITHUB_ENV"
+          exit 0
+      - name: Send custom event details to a Slack workflow
+        if: github.ref_name == 'main'
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            llm_successes: ${{ env.llm_successes }}
+            llm_failures: ${{ env.llm_failures }}
+            llm_total: ${{ env.llm_total }}
+            llm_percentage: ${{ env.llm_percentage }}
+            graph_successes: ${{ env.graph_successes }}
+            graph_failures: ${{ env.graph_failures }}
+            graph_total: ${{ env.graph_total }}
+            graph_percentage: ${{ env.graph_percentage }}
+            graph_error_report: ${{ env.graph_error_report }}
+            llm_error_report: ${{ env.llm_error_report }}
