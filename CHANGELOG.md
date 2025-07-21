@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/akramsameer/test-tags/compare/v1.1.0...v1.2.0) (2025-07-21)
+
+
+### Features
+
+* increase MAX_BATCH_SIZE in box_strategy.py from 100 to 300 ([6d1d5ad](https://github.com/akramsameer/test-tags/commit/6d1d5ad477a71d7264b44209b9706fb3b92f7fd9))
+
 # [1.1.0](https://github.com/akramsameer/test-tags/compare/v1.0.5...v1.1.0) (2025-07-21)
 
 
