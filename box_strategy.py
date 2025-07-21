@@ -23,7 +23,6 @@ class BoxStrategy(BaseScannerStrategy):
     """Box scanner strategy implementation."""
 
     # Constants for configuration
-    MAX_PAGE_SIZE = 100  # Max items per API request
     MAX_BATCH_SIZE = 300  # Max files to process in one job run
     RATE_LIMIT_DELAY = 0.5  # Seconds to delay between API calls
     MAX_RETRIES = 3
