@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/akramsameer/test-tags/compare/v1.3.2...v1.3.3) (2025-07-21)
+
+
+### Bug Fixes
+
+* update GitHub Actions to use GH_PAT for Semantic Release ([eca1661](https://github.com/akramsameer/test-tags/commit/eca1661818dffb67f1cac71106d5a92fd690ae01))
+
 ## [1.3.2](https://github.com/akramsameer/test-tags/compare/v1.3.1...v1.3.2) (2025-07-21)
 
 
