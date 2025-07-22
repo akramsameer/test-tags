@@ -4,6 +4,15 @@
 ### Bug Fixes
 
 * **linting:** add log message to indicate when linting workflow is running ([e0a30e6](https://github.com/akramsameer/test-tags/commit/e0a30e6415880ff24fc8e7cd27b12830b907fe8c))
+* **release:** bump version to 3.1.0 ([a046efa](https://github.com/akramsameer/test-tags/commit/a046efab6d0a06eb00b6ec4a80a1a7adae5c5dd5))
+* **release:** prevent redundant release actions for already released commits ([b0ef397](https://github.com/akramsameer/test-tags/commit/b0ef3972a5f2a18a5282a0f4d67a5d08c42b0214))
+
+## [1.3.10](https://github.com/akramsameer/test-tags/compare/v1.3.9...v1.3.10) (2025-07-22)
+
+
+### Bug Fixes
+
+* **linting:** add log message to indicate when linting workflow is running ([e0a30e6](https://github.com/akramsameer/test-tags/commit/e0a30e6415880ff24fc8e7cd27b12830b907fe8c))
 * **release:** prevent redundant release actions for already released commits ([b0ef397](https://github.com/akramsameer/test-tags/commit/b0ef3972a5f2a18a5282a0f4d67a5d08c42b0214))
 
 ## [1.3.10](https://github.com/akramsameer/test-tags/compare/v1.3.9...v1.3.10) (2025-07-22)
