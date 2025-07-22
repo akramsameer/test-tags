@@ -1,3 +1,10 @@
+## [1.3.10](https://github.com/akramsameer/test-tags/compare/v1.3.9...v1.3.10) (2025-07-22)
+
+
+### Bug Fixes
+
+* **linting:** add log message to indicate when linting workflow is running ([e0a30e6](https://github.com/akramsameer/test-tags/commit/e0a30e6415880ff24fc8e7cd27b12830b907fe8c))
+
 ## [1.3.9](https://github.com/akramsameer/test-tags/compare/v1.3.8...v1.3.9) (2025-07-21)
 
 
