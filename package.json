@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "semantic-release": "semantic-release",
-    "prepare": "echo $(npx semantic-release --dry-run | grep -oP 'next release version is \\K[0-9.]+' || echo '0.1.0') > VERSION"
+    "prepare": "echo $(npx semantic-release --dry-run | grep -oP 'next release version is \\K[0-9.]+' ) > VERSION"
   },
   "keywords": [],
   "author": "",
